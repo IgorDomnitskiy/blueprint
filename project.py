@@ -50,6 +50,11 @@ def get_center(x_coord, y_coord):
 
 contours_pd['center_x'] = contours_pd['x'].apply(sum).astype(int) / contours_pd['x'].apply(len).astype(int)
 contours_pd['center_y'] = contours_pd['y'].apply(sum).astype(int) / contours_pd['y'].apply(len).astype(int)
+'''
+After the contours were outlined, some patches were duplicated and fit on top of each other, so we need to determine and drop them.
+Unfortunately it assumes manual processing.
+'''
+
 duplicates = (contours_pd['number'] == 73) | \
              (contours_pd['number'] == 72) | \
              (contours_pd['number'] == 39) | \
@@ -141,7 +146,7 @@ slider.on_changed(update)
 # create a dictionary mapping store names to their indices in the contours_pd DataFrame
 store_patches = {name: patch for name, patch in zip(contours_pd['names'], patches)}
 
-
+# added function to show annotation from the right side of the plot
 def on_text_change(label):
     if not label:
         # If the label is empty, show all patches
